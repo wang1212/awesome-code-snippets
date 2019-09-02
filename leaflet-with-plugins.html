@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<!-- 强制让 IE 使用最新内核渲染 -->
+	<meta http-equiv = "X-UA-Compatible" content = "IE=edge" />
+	<!-- 禁止用户缩放 -->
+	<meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+	<!-- 优先选择 chrome 内核渲染 -->
+	<meta name = "renderer" content = "webkit">
+	<!-- 禁止页面缓存 -->
+	<meta http-equiv = "pragma" content        = "no-cache" />
+	<meta http-equiv = "Cache-control" content = "no-cache" />
+	<meta http-equiv = "expires" content       = "0" />
+	<title>Leaflet-With-Plugins</title>
+	<!-- 页面关键字（搜索引擎抓取） -->
+	<meta name = "keywords" content = "" />
+	<!-- 页面内容描述（搜索引擎抓取） -->
+	<meta name      = "description" content = "" />
+	<meta name      = "theme-color" content = "#278fef" />
+	<link rel       = "icon" href           = "favicon.ico">
+	<!--  <link rel = "manifest" href       = "manifest.json"> -->
+	<!-- 页面 css 初始化（保证各浏览器页面默认样式统一，应最先引入，bootstrap 框架已内置该文件） -->
+	<link crossorigin = "anonymous" integrity = "sha384-9Z9AuAj0Xi0z7WFOSgjjow8EnNY9wPNp925TVLlAyWhvZPsf5Ks23Ex0mxIrWJzJ"
+		href = "//lib.baomitu.com/normalize/latest/normalize.min.css" rel = "stylesheet">
+	<link crossorigin = "anonymous" integrity = "sha384-eS4bw6aEvhCSXWGP85ANR/N8isWKzT7P36NvcuTJGkrj6wsbxLVpXslrNXYHyseD"
+		href = "//lib.baomitu.com/leaflet/latest/leaflet.css" rel = "stylesheet">
+	<link rel = "stylesheet" href = "vendors/plugins/leaflet-draw-1.0.4/leaflet.draw.css">
+	<link rel = "stylesheet" href = "vendors/plugins/leaflet-measure-3.1.0/leaflet-measure.css">
+	<link rel = "stylesheet" href = "vendors/plugins/leaflet-fullscreen-1.0.1/Leaflet.fullscreen.css">
+	<!-- IE6-8  兼容解决方案
+		html5shiv ： 提供对 html5 新标签（例如 footer、nav）的支持;
+		respond ： 用来提供对 CSS3 @media媒体查询机制（min-width/max-width）的支持。
+		if lte IE 8 ： 其中 lte 代表小于等于。
+	 -->
+	<!--[if lte IE 8]>
+		<script crossorigin = "anonymous" integrity = "sha384-CLKmepoEqm+8g1zYcrHJuGaM+IiwqEjhYZpW1kQf0++07t63QBTUcWijzFM0hvOJ"
+			src = "//lib.baomitu.com/html5shiv/latest/html5.min.js"></script>
+		<script crossorigin = "anonymous" integrity = "sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo"
+			src = "//lib.baomitu.com/respond.js/latest/respond.min.js"></script>
+	<![endif]-->
+	<style>
+		html, body, .map {
+			width : 100%;
+			height: 100%;
+		}
+		.leaflet-control.LatLng {
+			font-weight: bolder;
+		}
+	</style>
+	<script>
+		// 判断是不是 IE 8 以下
+		var _lte_IE_8 = !!(navigator.appName == 'Microsoft Internet Explorer' && +navigator.appVersion.split(';')[1].match(/\d+/)[0] < 9);
+	</script>
+	<script>
+		// Check that service workers are registered
+		/* if (location.protocol != 'file:' && 'serviceWorker' in navigator ) {
+			// Use the window load event to keep the page load performant
+			window.addEventListener('load', function () {
+				navigator.serviceWorker.register( 'build/service-worker.js' );
+			});
+		} */
+	</script>
+<body>
+	<div id = "map" class = "map"></div>
+
+	<!-- IE6-8  兼容解决方案
+		selectivizr ：提供对 CSS3 新选择器（例如: nth-child、: last-child）的支持，style 标签内样式不解析，动态生成的 DOM 也不解析。（需要 jQuery、dojo 等库的支持）
+		if lte IE 8 ： 其中 lte 代表小于等于。
+	 -->
+	<!--[if lte IE 8]>
+		<script crossorigin = "anonymous" integrity = "sha384-beb+XZXgD+/62+xT9KSx/KEnKG7hSWaIiI7KPDH3mS1o83+RL8ftPr/tJKB71yjN"
+			src = "//lib.baomitu.com/selectivizr/latest/selectivizr-min.js"></script>
+	<![endif]-->
+	<script crossorigin = "anonymous" integrity = "sha384-bmPowDlt+owc6Mn3LwOzLPkYiVm6MuKeLMe0qN2pp7Fhmux2xtVJm5e+ekpCVv4x"
+		src = "//lib.baomitu.com/leaflet/latest/leaflet.js"></script>
+	<script src = "vendors/plugins/leaflet-draw-1.0.4/leaflet.draw.js"></script>
+	<script src = "vendors/plugins/leaflet-measure-3.1.0/leaflet-measure.cn.js"></script>
+	<script src = "vendors/plugins/leaflet-fullscreen-1.0.1/Leaflet.fullscreen.min.js"></script>
+	<script>
+		/**
+		 * config plugins
+		 */
+		// local i18n
+		L.drawLocal = {
+			draw: {
+				toolbar: {
+					actions: {
+						title: '取消绘制',
+						text : '取消'
+					},
+					finish: {
+						title: '完成绘制',
+						text : '完成'
+					},
+					undo: {
+						title: '删除最后一个绘制点',
+						text : '删除绘制点'
+					},
+					buttons: {
+						polyline    : '绘制折线',
+						polygon     : '绘制多边形',
+						rectangle   : '绘制矩形',
+						circle      : '绘制圆',
+						marker      : '绘制标记',
+						circlemarker: '绘制圆形标记'
+					}
+				},
+				handlers: {
+					circle: {
+						tooltip: {
+							start: 'Click and drag to draw circle.'
+						},
+						radius: 'Radius'
+					},
+					circlemarker: {
+						tooltip: {
+							start: 'Click map to place circle marker.'
+						}
+					},
+					marker: {
+						tooltip: {
+							start: 'Click map to place marker.'
+						}
+					},
+					polygon: {
+						tooltip: {
+							start: '点击开始绘制形状。',
+							cont : '点击继续绘制形状。',
+							end  : '点击第一个点以闭合此形状。'
+						}
+					},
+					polyline: {
+						error  : '<strong>Error:</strong> shape edges cannot cross!',
+						tooltip: {
+							start: 'Click to start drawing line.',
+							cont : 'Click to continue drawing line.',
+							end  : 'Click last point to finish line.'
+						}
+					},
+					rectangle: {
+						tooltip: {
+							start: 'Click and drag to draw rectangle.'
+						}
+					},
+					simpleshape: {
+						tooltip: {
+							end: 'Release mouse to finish drawing.'
+						}
+					}
+				}
+			},
+			edit: {
+				toolbar: {
+					actions: {
+						save: {
+							title: '保存更改',
+							text : '保存'
+						},
+						cancel: {
+							title: '取消编辑，放弃所有更改',
+							text : '取消'
+						},
+						clearAll: {
+							title: '清除所有图层',
+							text : '清除所有'
+						}
+					},
+					buttons: {
+						edit          : '编辑图层',
+						editDisabled  : '没有图层可编辑',
+						remove        : '删除图层',
+						removeDisabled: '没有图层可删除'
+					}
+				},
+				handlers: {
+					edit: {
+						tooltip: {
+							text   : 'Drag handles or markers to edit features.',
+							subtext: 'Click cancel to undo changes.'
+						}
+					},
+					remove: {
+						tooltip: {
+							text: '点击要删除的要素图层。'
+						}
+					}
+				}
+			}
+		};
+
+		/**
+		 * base layer sources
+		 */
+		const base_tile_layer_sources = {
+			'谷歌影像图': L.layerGroup([
+				L.tileLayer(
+					'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'
+				),
+				L.tileLayer(
+					'//t{s}.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=50f23323fd61ce53465fca366c449e87',
+					{
+						subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+					}
+				)
+			]),
+			'谷歌道路图': L.layerGroup([
+				L.tileLayer(
+					'http://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}'
+				)
+			]),
+			'天地图影像图': L.layerGroup([
+				L.tileLayer(
+					'//t{s}.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=50f23323fd61ce53465fca366c449e87',
+					{
+						subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+					}
+				),
+				L.tileLayer(
+					'//t{s}.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=50f23323fd61ce53465fca366c449e87',
+					{
+						subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+					}
+				)
+			]),
+			'天地图道路图': L.layerGroup([
+				L.tileLayer(
+					'//t{s}.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=50f23323fd61ce53465fca366c449e87',
+					{
+						subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+					}
+				),
+				L.tileLayer(
+					'//t{s}.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=50f23323fd61ce53465fca366c449e87',
+					{
+						subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+					}
+				)
+			])
+		};
+
+		// map control
+		const get_latlng_control = () => {
+			const LatLng = L.control({ position: 'bottomright' });
+
+			LatLng.onAdd = function () {
+				return this._div = L.DomUtil.create('div', 'LatLng');
+			};
+
+			LatLng.update = function (latlng) {
+				this._div.textContent = latlng.lng.toFixed(7) + ', ' + latlng.lat.toFixed(7);
+				this._div.setAttribute('title', latlng.lng.toFixed(7) + ', ' + latlng.lat.toFixed(7));
+			};
+
+			return LatLng;
+		};
+
+		/**
+		 * map init
+		 */
+		function init () {
+
+			const map = L.map('map', {
+				center            : [34.27, 108.93],
+				zoom              : 10,
+				attributionControl: false,
+				zoomControl       : false,
+				layers            : [
+					base_tile_layer_sources['谷歌道路图']
+				],
+				renderer          : L.canvas()
+			});
+
+			/* -- add map control -- */
+			map.addControl(
+				L.control.layers(base_tile_layer_sources)
+			);
+
+			map.addControl(
+				L.control.zoom({
+					zoomInTitle : '放大',
+					zoomOutTitle: '缩小',
+					position    : 'topleft'
+				})
+			);
+
+			map.addControl(
+				new L.Control.Fullscreen({
+					title: {
+						'false': '全屏查看',
+						'true': '退出全屏'
+					}
+				})
+			);
+
+			map.addControl(
+				L.control.scale({ imperial: false })
+			);
+
+			map.addControl(
+				L.control.measure({
+					position           : 'topright',
+					primaryLengthUnit  : 'kilometers',
+					secondaryLengthUnit: 'meters',
+					primaryAreaUnit    : 'sqkilometers',
+					activeColor        : '#dc3545',
+					completedColor     : '#dc3545',
+					units              : {
+						sqkilometers: {
+							factor  : 0.000001,
+							display : '平方公里',
+							decimals: 2
+						}
+					}
+				})
+			);
+
+			let editableLayers = new L.FeatureGroup().addTo(map);
+
+			map.addControl(
+				new L.Control.Draw({
+					position: 'topright',
+					draw: {
+						polyline: true,
+						polygon: true,
+						rectangle: true,
+						circle: true,
+						marker: true,
+						circlemarker: true,
+					},
+					edit: {
+						featureGroup: editableLayers,
+						//edit: false
+					}
+				})
+			);
+
+			map.on(L.Draw.Event.CREATED, e => {
+				editableLayers.addLayer(e.layer);
+			});
+
+			const lat_lng_control = get_latlng_control();
+
+			map.addControl(lat_lng_control);
+
+			map.on('mousemove', e => {
+				lat_lng_control.update(e.latlng);
+			});
+
+		}
+
+		init();
+	</script>
+</html>
