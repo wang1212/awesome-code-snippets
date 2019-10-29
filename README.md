@@ -11,9 +11,17 @@
 
 ## Code Snippets
 
+- Remove `node_modules`
+
+The `node_modules` folder usually contains **a lot of small files**, which takes **a long time** to delete on **Windows**. You can save time with the following command:
+
+```
+rmdir "node_modules\" /S /Q
+```
+
 - Install `node-sass`
 
-It is easy to fail to install in China in the normal way. Can be installed in the following ways:
+It is easy to **fail** to install in **China** in the normal way. Can be installed in the following ways:
 
 ```
 npm i -D node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
