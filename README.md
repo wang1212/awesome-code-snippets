@@ -11,6 +11,16 @@
 
 ## Code Snippets
 
+- `npm link`
+
+When doing npm module development, the local debugging usually uses the `npm link` command to link the module to be debugged, which is troublesome and error-prone (especially on the windows platform). Here is a little trick that can be used as an alternative:
+
+```
+"dependencies": {
+  "my-dev-module": "file:../my-dev-module/index.min.js"
+}
+```
+
 - Remove `node_modules`
 
 The `node_modules` folder usually contains **a lot of small files**, which takes **a long time** to delete on **Windows**. You can save time with the following command:
