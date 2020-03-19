@@ -11,6 +11,19 @@
 
 ## Code Snippets
 
+- `MediaDevices.getUserMedia()` vs `<input type="file" capture />`
+
+In order to use JavaScript to call media devices (camera / microphone, etc.) on the mobile terminal, the H5 API provides [MediaDevices.getUserMedia ()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), but there are many compatibility issues; however, you can use the [capture](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) property of the `input` tag as an alternative.
+
+```
+// `accept` attribute can restrict media type.
+// no accept - When the accept attribute does not exist, it will include the camera / camcorder / recorder / file system.
+// accept=image/* - camera only.
+// accept=video/* - camcorder only.
+// accept=audio/* - recorder only.
+<input type="file" capture />
+```
+
 - `npm link`
 
 When doing npm module development, the local debugging usually uses the `npm link` command to link the module to be debugged, which is troublesome and error-prone (especially on the windows platform). Here is a little trick that can be used as an alternative:
