@@ -11,6 +11,22 @@
 
 ## Code Snippets
 
+- Use **POST** request with `multipart/form-data` data in Node
+
+Node does not help us encode requests like a browser, and natively does not support `multipart/form-data` data. The [form-data](https://github.com/form-data/form-data) module provides a solution:
+
+```javascript
+import FormData from 'form-data'
+import axios from 'axios'
+
+const formData = new FormData()
+formData.append('username', username)
+formData.append('password', password)
+
+// `headers` are very important
+axios.post(api, formData, { headers: formData.getHeaders() })
+```
+
 - `MediaDevices.getUserMedia()` vs `<input type="file" capture />`
 
 In order to use JavaScript to call media devices (camera / microphone, etc.) on the mobile terminal, the H5 API provides [MediaDevices.getUserMedia ()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), but there are many compatibility issues; however, you can use the [capture](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) property of the `input` tag as an alternative.
@@ -28,7 +44,7 @@ In order to use JavaScript to call media devices (camera / microphone, etc.) on 
 
 When doing npm module development, the local debugging usually uses the `npm link` command to link the module to be debugged, which is troublesome and error-prone (especially on the windows platform). Here is a little trick that can be used as an alternative:
 
-```
+```json
 "dependencies": {
   "my-dev-module": "file:../my-dev-module/index.min.js"
 }
@@ -46,7 +62,7 @@ rmdir "node_modules\" /S /Q
 
 It is easy to **fail** to install in **China** in the normal way. Can be installed in the following ways:
 
-```
+```shell
 npm i -D node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
 ```
 
@@ -56,7 +72,7 @@ npm i -D node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
 [1]: https://www.loc.gov/preservation/digital/formats/fdd/fdd000326.shtml "dBASE Table for ESRI Shapefile (DBF)"
 [2]: https://www.esri.com/library/whitepapers/pdfs/shapefile.pdf
 
-```
+```javascript
 {
 	B: 'Binary',
 	C: 'Character',
