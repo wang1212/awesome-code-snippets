@@ -85,6 +85,12 @@ Then:
 <section class="page">Page Two</section>
 ```
 
+- Use [`CSS contain`](https://developer.mozilla.org/en-US/docs/Web/CSS/contain) to optimize performance.
+
+```css
+contain: strict;
+```
+
 ### Node.js
 
 - Use **POST** request with `multipart/form-data` data in Node
