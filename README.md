@@ -8,6 +8,7 @@
 
 - [HTML Template](https://wang1212.github.io/awesome-code-snippets)
 - [Leaflet-With-Plugins](https://wang1212.github.io/awesome-code-snippets/leaflet-with-plugins.html)
+- [Cesium.js](Cesiumjs.md)
 
 ## Code Snippets
 
