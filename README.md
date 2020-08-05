@@ -47,7 +47,7 @@
 
 - `MediaDevices.getUserMedia()` vs `<input type="file" capture />`
 
-In order to use JavaScript to call media devices (camera / microphone, etc.) on the mobile terminal, the H5 API provides [MediaDevices.getUserMedia ()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), but there are many compatibility issues; however, you can use the [capture](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) property of the `input` tag as an alternative.
+为了使用 JavaScript 在移动终端上调用媒体设备（相机/麦克风等），H5 API 提供了 [`MediaDevices.getUserMedia()`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)，但是存在许多兼容性问题；然而，你可以使用 `input` 标签的 [`capture`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) 属性作为备选方案。
 
 ```
 // `accept` attribute can restrict media type.
@@ -60,7 +60,7 @@ In order to use JavaScript to call media devices (camera / microphone, etc.) on 
 
 ### CSS
 
-- Use [`@media`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) to hide DOM elements that do not need to be **printed**.
+- 使用 [`@media`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) 隐藏不需要打印的 DOM 元素
 
 ```css
 @media print {
@@ -70,13 +70,13 @@ In order to use JavaScript to call media devices (camera / microphone, etc.) on 
 }
 ```
 
-Then there is no need to print the DOM element on the page:
+标记不需要打印的 DOM 元素：
 
 ```html
 <div class="not-print"></div>
 ```
 
-- Use CSS rules [`break-before`](https://developer.mozilla.org/en-US/docs/Web/CSS/break-before) and` break-after` to force paging when printing
+- 使用 CSS 规则 [`break-before`](https://developer.mozilla.org/en-US/docs/Web/CSS/break-before) 和` break-after` 在打印时强制分页：
 
 ```css
 .page {
@@ -85,14 +85,14 @@ Then there is no need to print the DOM element on the page:
 }
 ```
 
-Then:
+然后:
 
 ```html
 <section class="page">Page One</section>
 <section class="page">Page Two</section>
 ```
 
-- Use [`CSS contain`](https://developer.mozilla.org/en-US/docs/Web/CSS/contain) to optimize performance.
+- 使用 [`CSS contain`](https://developer.mozilla.org/en-US/docs/Web/CSS/contain) 优化性能
 
 ```css
 contain: strict;
@@ -102,11 +102,7 @@ contain: strict;
 
 - 在 Node.js 中用 **POST** 请求提交 `multipart/form-data` 表单数据
 
-*Use **POST** request with `multipart/form-data` data in Node.*
-
 Node.js 默认对 `multipart/form-data` 数据在请求时不进行编码，[form-data](https://github.com/form-data/form-data) 模块提供了解决方案：
-
-*Node does not help us encode requests like a browser, and natively does not support `multipart/form-data` data. The [form-data](https://github.com/form-data/form-data) module provides a solution:*
 
 ```javascript
 import FormData from 'form-data'
@@ -124,8 +120,6 @@ axios.post(api, formData, { headers: formData.getHeaders() })
 
 在 Node.js 模块/包开发中，`npm link` 命令可以在本地进行发布前调试，但会造成一点的问题和文件夹污染，下面提供一个更干净的方式：
 
-*When doing npm module development, the local debugging usually uses the `npm link` command to link the module to be debugged, which is troublesome and error-prone (especially on the windows platform). Here is a little trick that can be used as an alternative:*
-
 ```json
 "dependencies": {
   "my-dev-module": "file:../my-dev-module/index.min.js"
@@ -135,8 +129,6 @@ axios.post(api, formData, { headers: formData.getHeaders() })
 - 移除 *node_modules* 文件夹
 
 *node_modules* 文件夹通常包含大量文件，要在 **Windows** 系统上删除该文件夹需要耗费很长时间，提供一个有用的命令来快速删除该文件夹：
-
-*The **node_modules** folder usually contains **a lot of small files**, which takes **a long time** to delete on **Windows**. You can save time with the following command:*
 
 ```cmd
 rmdir "node_modules\" /S /Q
@@ -152,7 +144,7 @@ rmdir "node_modules\" /S /Q
 npm i -D node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
 ```
 
-*Now, [`sass`](https://www.npmjs.com/package/sass) is recommended as an alternative.*
+现在，推荐使用 [`sass`](https://www.npmjs.com/package/sass) 作为替代。
 
 ## 其它
 
