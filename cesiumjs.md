@@ -35,6 +35,8 @@ viewer.scene.screenSpaceCameraController.tiltEventTypes = [
 
 - 获取鼠标坐标（经纬度、高程）
 
+*Get mouse coordinates (latitude, longitude, elevation).*
+
 ```js
 const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
 
@@ -71,7 +73,7 @@ handler.setInputAction((e) => {
 <summary>View code</summary>
 
 ```js
-function getZoomLevelHeights(precision?: number): Record<'level' | 'height', number>[] {
+function getZoomLevelHeights(precision) {
 	function detectZoomLevel(distance) {
 		const scene = map.scene
 		const tileProvider = scene.globe._surface.tileProvider
